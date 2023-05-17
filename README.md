@@ -107,20 +107,21 @@ export class AppComponent implements OnInit {
 If you render anything dynamic like (click)="load()" and `load` is async, then this works, too,
 since `load` is part of the component and being watched, and once it is finished, this ZoneJS implementation
 triggers `onMicrotaskEmpty` which triggers a `Application.tick()`. It works only when load is finished though.
-If you have multiple sub async calls in load, then you need to `ChangeDetectorRef.detectChanges()` manually.
-
-Soon, you also will be able to use signals to make this easier.
+If you have multiple sub async calls in load, then you need to `ChangeDetectorRef.detectChanges()` manually,
+or you use [Angular signals](https://angular.io/guide/signals).
 
 ```typescript
+import { signal } from '@angular/core';
+
 @Component({
     selector: 'app-root',
     template: `
-        <h1>{{ title }}</h1>
+        <h1>{{ title() }}</h1>
         <button (click)="load()">Load</button>
     `
 })
 export class AppComponent implements OnInit {
-    title: string;
+    title = signal('');
 
     constructor(private cd: ChangeDetectorRef) {
     }
@@ -135,10 +136,8 @@ export class AppComponent implements OnInit {
     }
 
     async load() {
-        this.title = await this.getTitle();
-        this.cd.detectChanges(); //to render title immediately before load() is finished.
+        this.title.set(await this.getTitle()); //renders immediately title
         await this.loadSomethingElse();
-        //here at the end, a render happens automatically.
     }
 }
 ```
