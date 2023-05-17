@@ -24,6 +24,10 @@ correctly until your init procedure is done (like loading data from the server).
 
 ## How to set up
 
+```sh
+npm install angular-zoneless
+```
+
 ```typescript
 import { withZoneLessModule } from 'angular-zoneless';
 import { ApplicationConfig } from '@angular/core';
