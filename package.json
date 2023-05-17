@@ -1,0 +1,51 @@
+{
+  "name": "angular-zoneless",
+  "version": "1.0.0",
+  "description": "Library to support Zoneless Angular with Hydration and SSR",
+  "type": "commonjs",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "files": [
+    "src",
+    "index.ts",
+    "package.json",
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/cjs/index.d.ts",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/esm/index.js"
+    }
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "echo '{\"type\": \"module\"}' > ./dist/esm/package.json && tsc && tsc --project tsconfig.esm.json"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/marcj/angular-zoneless",
+  "author": "Marc J. Schmidt <marc@marcjschmidt.de>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.4",
+    "@angular/router": "^16.0.1",
+    "@angular/core": "^16.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "(.+)\\.js": "$1"
+    },
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/*.spec.ts"
+    ]
+  }
+}
