@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
 }
 ```
 
-Once the Promise of `ngOnInit` is resolved in all components, the ZoneJS implementation calls onStable,
+Once the Promise of `ngOnInit` is resolved in all components, our Zone implementation calls onStable,
 which allows hydration and SSR to finish.
 
 This works since this module hooks into all async methods of your components. By doing that it knows
@@ -105,7 +105,7 @@ export class AppComponent implements OnInit {
 ```
 
 If you render anything dynamic like (click)="load()" and `load` is async, then this works, too,
-since `load` is part of the component and being watched, and once it is finished, this ZoneJS implementation
+since `load` is part of the component and being watched, and once it is finished, our Zone implementation
 triggers `onMicrotaskEmpty` which triggers a `Application.tick()`. It works only when load is finished though.
 If you have multiple sub async calls in load, then you need to `ChangeDetectorRef.detectChanges()` manually,
 or you use [Angular signals](https://angular.io/guide/signals).
