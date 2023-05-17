@@ -15,10 +15,10 @@ Why is Zone.js problematic?
    making it unnecessary complex and hard to replace providers in the server side rendering process.
 
 I prefer to have my Node.js instance clean and not polluted with Zone.js, so I can use async/await
-without any problems. This package provides such a Zone.js implementation, making SSR and hydration possible without
+without any problems. This package provides an alternative Zone implementation, making SSR and hydration possible without
 Zone.js. It comes with some limitations though.
 
-It hooks automatically into all lifecycle hooks and makes Zone.js aware of them.
+It hooks automatically into all lifecycle hooks and makes our Zone implementation aware of them.
 This means, you can use `async ngOnInit` and the SSR as well as hydration on the client wait
 correctly until your init procedure is done (like loading data from the server).
 
