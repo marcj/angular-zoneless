@@ -104,8 +104,10 @@ export class AppComponent implements OnInit {
 }
 ```
 
-If you render anything dynamic like (click)="load()" and `load` is async, you need either use RxJS with async pipe to render dynamically,
-or make sure `load` calls `ChangeDetectorRef.detectChanges()` once the data is loaded.
+If you render anything dynamic like (click)="load()" and `load` is async, then this works, too,
+since `load` is part of the component and being watched, and once it is finished, this ZoneJS implementation
+triggers `onMicrotaskEmpty` which triggers a `Application.tick()`. It works only when load is finished though.
+If you have multiple sub async calls in load, then you need to `ChangeDetectorRef.detectChanges()` manually.
 
 Soon, you also will be able to use signals to make this easier.
 
@@ -128,12 +130,15 @@ export class AppComponent implements OnInit {
     }
 
     async getTitle() {
+        //e.g. some async remote call
         return 'Hello World';
     }
 
     async load() {
         this.title = await this.getTitle();
-        this.cd.detectChanges();
+        this.cd.detectChanges(); //to render title immediately before load() is finished.
+        await this.loadSomethingElse();
+        //here at the end, a render happens automatically.
     }
 }
 ```
